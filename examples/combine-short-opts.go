@@ -10,7 +10,7 @@ import (
 
 func main() {
 	app := cli.NewApp()
-	// app.UseShortOptionHandling = true // ?!
+	app.UseShortOptionHandling = true // ?!
 	app.Commands = []cli.Command{
 		{
 			Name:  "short",
