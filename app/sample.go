@@ -18,7 +18,7 @@ type SampleApp struct {
 func Create() *SampleApp {
 
 	app := cli.NewApp()
-	globalConfig(app)
+	addGlobalConfig(app)
 	addGlobalFlags(app)
 	addCommands(app)
 	lastConfig(app)
@@ -27,7 +27,7 @@ func Create() *SampleApp {
 	}
 }
 
-func globalConfig(app *cli.App) {
+func addGlobalConfig(app *cli.App) {
 
 	app.Name = "boom"
 	app.Usage = "make an explosive entrance"

@@ -6,6 +6,5 @@ import (
 
 func main() {
 
-	sampleApp := app.Create()
-	sampleApp.Start()
+	app.Create().Start()
 }
