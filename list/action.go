@@ -10,14 +10,17 @@ import (
 	"github.com/urfave/cli"
 )
 
-func listFiles(path *string, showHidden *bool) func(c *cli.Context) error {
+func listFiles() func(c *cli.Context) error {
 
 	return func(c *cli.Context) error {
+
+		path := c.String("path")
+		showHidden := c.Bool("show-hidden")
 
 		// fmt.Printf("[DEBUG] Path: %s\n", *path)
 		// fmt.Printf("[DEBUG] Show hidden: %v\n", *showHidden)
 
-		files, err := ioutil.ReadDir(*path)
+		files, err := ioutil.ReadDir(path)
 		if err != nil {
 			return err
 		}
@@ -25,7 +28,7 @@ func listFiles(path *string, showHidden *bool) func(c *cli.Context) error {
 		for _, file := range files {
 			if !file.IsDir() {
 				// fmt.Printf("[DEBUG] Path %s is hidden: %v\n", file.Name(), isHidden(file.Name()))
-				if *showHidden {
+				if showHidden {
 					fmt.Println(file.Name())
 				} else {
 					hidden, hiddenErr := isHidden(file.Name())
@@ -43,14 +46,17 @@ func listFiles(path *string, showHidden *bool) func(c *cli.Context) error {
 	}
 }
 
-func listFolders(path *string, showHidden *bool) func(c *cli.Context) error {
+func listFolders() func(c *cli.Context) error {
 
 	return func(c *cli.Context) error {
+
+		path := c.String("path")
+		showHidden := c.Bool("show-hidden")
 
 		// fmt.Printf("[DEBUG] Path: %s\n", *path)
 		// fmt.Printf("[DEBUG] Show hidden: %v\n", *showHidden)
 
-		files, err := ioutil.ReadDir(*path)
+		files, err := ioutil.ReadDir(path)
 		if err != nil {
 			return err
 		}
@@ -58,7 +64,7 @@ func listFolders(path *string, showHidden *bool) func(c *cli.Context) error {
 		for _, file := range files {
 			if file.IsDir() {
 				// fmt.Printf("[DEBUG] Path %s is hidden: %v\n", file.Name(), isHidden(file.Name()))
-				if *showHidden {
+				if showHidden {
 					fmt.Println(file.Name())
 				} else {
 					hidden, hiddenErr := isHidden(file.Name())
@@ -76,11 +82,15 @@ func listFolders(path *string, showHidden *bool) func(c *cli.Context) error {
 	}
 }
 
-func listAll(path *string) func(c *cli.Context) error {
+func listAll() func(c *cli.Context) error {
 
 	return func(c *cli.Context) error {
 
-		err := filepath.Walk(*path, func(filepath string, info os.FileInfo, err error) error {
+		path := c.String("path")
+
+		// fmt.Printf("[DEBUG] Path: %s\n", *path)
+
+		err := filepath.Walk(path, func(filepath string, info os.FileInfo, err error) error {
 			fmt.Println(filepath)
 			return nil
 		})
@@ -100,7 +110,6 @@ func isHidden(filepath string) (bool, error) {
 		// 	return isHiddenUnderWindows(filepath)
 	}
 
-	// fmt.Println("[ERROR] Unable to check if file is hidden under Windows")
 	return false, cli.NewExitError("[ERROR] Unable to check if file is hidden under Windows", 86)
 }
 

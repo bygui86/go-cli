@@ -5,6 +5,7 @@ import (
 	"os"
 	"sort"
 
+	"github.com/bygui86/go-cli/autocompletion"
 	"github.com/bygui86/go-cli/greet"
 	"github.com/bygui86/go-cli/list"
 
@@ -20,6 +21,8 @@ func Create() *SampleApp {
 	app := cli.NewApp()
 	addGlobalConfig(app)
 	addGlobalFlags(app)
+	addBefore(app)
+	addBashCompletion(app)
 	addCommands(app)
 	lastConfig(app)
 	return &SampleApp{
@@ -46,11 +49,32 @@ func addGlobalFlags(app *cli.App) {
 	}
 }
 
+// TODO to be implemented
+func addBefore(app *cli.App) {
+
+	app.Before = func(c *cli.Context) error {
+
+		// TODO add config-file action
+		// try using https://github.com/kelseyhightower/envconfig
+
+		return nil
+	}
+}
+
+func addBashCompletion(app *cli.App) {
+
+	app.EnableBashCompletion = true
+
+	// Custom shell autocompletion
+	// app.BashComplete = autocompletion.BuildShellCompletionFunc([]string{"greet", "list", "autocompletion", "help"})
+}
+
 func addCommands(app *cli.App) {
 
 	app.Commands = []cli.Command{
 		*greet.BuildCommand(),
 		*list.BuildCommand(),
+		*autocompletion.BuildCommand(),
 	}
 }
 

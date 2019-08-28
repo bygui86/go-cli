@@ -9,8 +9,6 @@ import (
 )
 
 func main() {
-	tasks := []string{"cook", "clean", "laundry", "eat", "sleep", "code"}
-
 	app := cli.NewApp()
 	app.EnableBashCompletion = true
 	app.Commands = []cli.Command{
@@ -27,7 +25,7 @@ func main() {
 				if c.NArg() > 0 {
 					return
 				}
-				for _, t := range tasks {
+				for _, t := range []string{"cook", "clean", "laundry", "eat", "sleep", "code"} {
 					fmt.Println(t)
 				}
 			},
