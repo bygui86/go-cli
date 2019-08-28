@@ -1,9 +1,11 @@
 package app
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"sort"
+	"strings"
 
 	"github.com/bygui86/go-cli/autocompletion"
 	"github.com/bygui86/go-cli/greet"
@@ -42,20 +44,38 @@ func addGlobalFlags(app *cli.App) {
 
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
-			Name:     "config, c",
-			Usage:    "Load configuration from `FILE`",
-			FilePath: "~/.go-cli/config", // default value set from file (takes precedence over default values set from the environment "EnvVar")
+			Name:  "config, c",
+			Usage: "Load configuration from `FILE`",
+			// FilePath: "~/.go-cli/config", // default value set from file (takes precedence over default values set from the environment "EnvVar")
+			FilePath: "./config", // default value set from file (takes precedence over default values set from the environment "EnvVar")
 		},
 	}
 }
 
-// TODO to be implemented
 func addBefore(app *cli.App) {
 
 	app.Before = func(c *cli.Context) error {
 
-		// TODO add config-file action
-		// try using https://github.com/kelseyhightower/envconfig
+		wholeConfig := c.String("config")
+		if wholeConfig != "" {
+			fmt.Printf("[DEBUG] Whole config as string: %s\n", wholeConfig)
+
+			wholeConfigSplit := strings.Fields(wholeConfig)
+			fmt.Printf("[DEBUG] Whole config as array: %s\n", wholeConfigSplit)
+	
+			for _, config := range wholeConfigSplit {
+				configSplit := strings.Split(config, "=")
+				fmt.Printf("[DEBUG] single config: %v\n", configSplit)
+				if len(configSplit) == 2 && configSplit[0] != "" && configSplit[1] != "" {
+					fmt.Printf("[DEBUG] env-var set: %s = %s\n", configSplit[0], configSplit[1])
+					os.Setenv(configSplit[0], configSplit[1])
+				} else {
+					fmt.Printf("[ERROR] Config not valid: %s - skipping and taking default...\n", configSplit)
+				}
+			}
+		} else {
+			fmt.Println("[DEBUG] Config file not set or empty")
+		}
 
 		return nil
 	}

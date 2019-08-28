@@ -16,13 +16,14 @@ The precedence for flag value sources is as follows (highest to lowest):
 
 ## Autocompletion
 
-Source the `autocomplete/*_autocomplete` file in your `.bashrc | .zshrc` file while setting the `PROG` variable to the name of your program.
+Source the `autocomplete-scripts/*_autocomplete` file in your `.bashrc | .zshrc` file while setting the `PROG` variable to the name of your program.
 
 `example`
 ```
 go build examples/bash-completion.go
 PROG=bash-completion source autocomplete-scripts/zsh_autocomplete
 ./bash-completion
+# now play with tab
 ```
 
 `go-cli`
@@ -30,12 +31,14 @@ PROG=bash-completion source autocomplete-scripts/zsh_autocomplete
 go build .
 source <(./go-cli autocompletion zsh)
 ./go-cli
+# now play with tab
 
 # OR
 
 go build .
 PROG=go-cli source autocomplete-scripts/zsh_autocomplete
 ./go-cli
+# now play with tab
 ```
 
 ---
@@ -43,6 +46,12 @@ PROG=go-cli source autocomplete-scripts/zsh_autocomplete
 ## Links
 
 * https://github.com/urfave/cli
+
+### Config
+
+* https://medium.com/@felipedutratine/manage-config-in-golang-to-get-variables-from-file-and-env-variables-33d876887152
+* https://github.com/Tkanos/gonfig
+* https://github.com/spf13/viper
 
 ### Collaterals
 
