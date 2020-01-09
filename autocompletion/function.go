@@ -6,6 +6,7 @@ import (
 	"github.com/urfave/cli"
 )
 
+// Used for 'custom shell autocompletion'
 func BuildShellCompletionFunc(commands []string) func(c *cli.Context) {
 
 	return func(c *cli.Context) {
