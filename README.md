@@ -16,28 +16,32 @@ The precedence for flag value sources is as follows (highest to lowest):
 
 ## Autocompletion
 
-Source the `autocomplete-scripts/*_autocomplete` file in your `.bashrc | .zshrc` file while setting the `PROG` variable to the name of your program.
-
-`example`
+`zsh example`
 ```
 go build examples/bash-completion.go
-PROG=bash-completion source autocomplete-scripts/zsh_autocomplete
-./bash-completion
+PROG=bash-completion source  <(bash-completion autocompletion zsh)
+bash-completion
 # now play with tab
 ```
 
-`go-cli`
+### BASH
+
+Source the `autocomplete-scripts/bash_autocomplete` file in your `.bashrc` or `.bash_profile` file.
+
 ```
 go build .
-source <(./go-cli autocompletion zsh)
-./go-cli
+source <(go-cli autocompletion bash)
+go-cli
 # now play with tab
+```
 
-# OR
+### ZSH
 
+Source the `autocomplete-scripts/zsh_autocomplete` file in your `.zshrc` file while setting the `PROG` variable to the name of your program.
+```shell
 go build .
-PROG=go-cli source autocomplete-scripts/zsh_autocomplete
-./go-cli
+PROG=go-cli source <(go-cli autocompletion zsh)
+go-cli
 # now play with tab
 ```
 
